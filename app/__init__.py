@@ -15,7 +15,7 @@ migrate = Migrate(app, db)
 login = LoginManager(app)
 login.login_view = 'login'
 
-from app import routes, models, errors
+from app import routes, models, errors  # noqa
 
 if not app.debug:
     if app.config['MAIL_SERVER']:
@@ -34,7 +34,9 @@ if not app.debug:
         app.logger.addHandler(mail_handler)
     if not os.path.exists('logs'):
         os.mkdir('logs')
-    file_handler = RotatingFileHandler('logs/miniblog.log', maxBytes=10240, backupCount=10)
+    file_handler = RotatingFileHandler('logs/miniblog.log',
+                                       maxBytes=10240,
+                                       backupCount=10)
     file_handler.setFormatter(logging.Formatter(
         '%(asctime)s %(levelname)s: %(message)s [in %(pathname)s:%(lineno)d]'))
     file_handler.setLevel(logging.INFO)
