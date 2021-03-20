@@ -53,10 +53,11 @@ class User(UserMixin, db.Model):  # Define the User Class and the UserMixin
             followers.c.followed_id == user.id).count() > 0
 
     def followed_posts(self):
-        return Post.query.join(
+        followed = Post.query.join(
             followers, (followers.c.followed_id == Post.user_id)).filter(
-                followers.c.follower_id == self.id).order_by(
-                    Post.timestamp.desc())
+                followers.c.follower_id == self.id)
+        own = Post.query.filter_by(user_id=self.id)
+        return followed.union(own).order_by(Post.timestamp.desc())
 
 
 class Post(db.Model):  # Define the Post Class and link to the User Class
