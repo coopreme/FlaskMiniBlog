@@ -62,7 +62,7 @@ class User(UserMixin, db.Model):  # Define the User Class and the UserMixin
 
 class Post(db.Model):  # Define the Post Class and link to the User Class
     id = db.Column(db.Integer, primary_key=True)
-    body = db.Column(db.String(160))
+    body = db.Column(db.String(240))
     timestamp = db.Column(db.DateTime, index=True, default=datetime.utcnow)
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'))
 
