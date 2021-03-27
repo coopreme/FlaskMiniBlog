@@ -45,6 +45,8 @@ WTForms = "==2.3.3"
 flask-mail = "*"
 pyjwt = "*"
 flask-bootstrap = "*"
+flask-moment = "*"
+flask-babel = "*"
 
 [dev-packages]
 
