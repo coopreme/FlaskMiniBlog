@@ -1,7 +1,7 @@
 {% extends "base.html" %}
 
 {% block app_content %}
-    <h1>Something went wrong</h1>
-    <p>A wild notification has appeared!</p>
-    <p><a href="{{ url_for('index') }}">Go Home?</a></p>
+    <h1>{{ _('Something went wrong') }}</h1>
+    <p>{{ _('A wild notification has appeared!') }}</p>
+    <p><a href="{{ url_for('index') }}">{{ _('Go Home.') }}</a></p>
 {% endblock %}
