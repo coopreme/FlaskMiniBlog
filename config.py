@@ -15,3 +15,4 @@ class Config(object):
     ADMINS = ['your-email@example.com']
     POSTS_PER_PAGE = 20
     LANGUAGES = ['en', 'it']
+    TRANS_KEY = os.environ.get('TRANS_KEY')

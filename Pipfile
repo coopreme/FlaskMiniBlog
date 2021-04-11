@@ -47,6 +47,8 @@ pyjwt = "*"
 flask-bootstrap = "*"
 flask-moment = "*"
 flask-babel = "*"
+guess-language-spirit = "*"
+requests = "*"
 
 [dev-packages]
 

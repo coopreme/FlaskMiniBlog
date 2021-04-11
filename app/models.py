@@ -81,7 +81,8 @@ class Post(db.Model):  # Define the Post Class and link to the User Class
     body = db.Column(db.String(240))
     timestamp = db.Column(db.DateTime, index=True, default=datetime.utcnow)
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'))
-
+    language = db.Column(db.String(5))
+    
     def __repr__(self):
         return '<Post {}>'.format(self.body)
 
