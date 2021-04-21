@@ -145,3 +145,5 @@ logs/
 
 #os files
 .DS_Store
+mysql-data/
+app.db
