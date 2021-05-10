@@ -1,0 +1,50 @@
+version: '3.8'
+services:
+    elasticsearch:
+        image: docker.elastic.co/elasticsearch/elasticsearch-oss:7.6.2
+        networks:
+            - privnet
+        environment:
+            discovery.type: single-node
+        ports:
+            - 9200:9200
+            - 9300:9300
+        volumes:
+            - ${ELASTIC_VOLUME}:/usr/share/elasticsearch/data
+        container_name: elasticsearch
+
+    mysql-db:
+        image: mysql/mysql-server:5.7
+        networks:
+            - privnet
+        environment: 
+            MYSQL_RANDOM_ROOT_PASSWORD: 1
+            MYSQL_DATABASE: ${MYSQL_DATABASE} 
+            MYSQL_USER: ${MYSQL_USER}
+            MYSQL_PASSWORD: ${MYSQL_PASSWORD}
+        volumes:
+            - ${MYSQL_VOLUME}:/var/lib/mysql  
+        container_name: mysql-db 
+
+    miniblog:
+        image: miniblog:0.5
+        networks:
+            - privnet
+        environment:
+            SECRET_KEY: ${SECRET_KEY}
+            MAIL_SERVER: ${MAIL_SERVER}
+            MAIL_PORT: ${MAIL_PORT}
+            MAIL_USERNAME: ${MAIL_USERNAME}
+            MAIL_PASSWORD: ${MAIL_PASSWORD}
+            MS_TRANSLATOR_KEY: ${MS_TRANSLATOR_KEY} 
+            DATABASE_URL: ${DATABASE_URL}
+            ELASTICSEARCH_URL: ${ELASTICSEARCH_URL}
+        ports:
+            - 8000:5000
+        container_name: miniblog
+        depends_on:
+            - "mysql-db"
+            - "elasticsearch"
+networks:
+    privnet:
+

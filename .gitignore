@@ -146,4 +146,5 @@ logs/
 #os files
 .DS_Store
 mysql-data/
+elastic-data/
 app.db
