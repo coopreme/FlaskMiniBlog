@@ -10,7 +10,7 @@ services:
             - 9200:9200
             - 9300:9300
         volumes:
-            - ${ELASTIC_VOLUME}:/usr/share/elasticsearch/data
+            - elastic-data-miniblog:/usr/share/elasticsearch/data
         container_name: elasticsearch
 
     mysql-db:
@@ -23,11 +23,11 @@ services:
             MYSQL_USER: ${MYSQL_USER}
             MYSQL_PASSWORD: ${MYSQL_PASSWORD}
         volumes:
-            - ${MYSQL_VOLUME}:/var/lib/mysql  
+            - mysql-data-miniblog:/var/lib/mysql  
         container_name: mysql-db 
 
     miniblog:
-        image: miniblog:0.7
+        image: miniblog:0.10
         pull_policy: always
         networks:
             - privnet
@@ -48,4 +48,9 @@ services:
             - "elasticsearch"
 networks:
     privnet:
+volumes:
+    mysql-data-miniblog:
+        external: true
+    elastic-data-miniblog:
+        external: true
 
