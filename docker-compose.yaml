@@ -27,7 +27,7 @@ services:
         container_name: mysql-db 
 
     miniblog:
-        image: miniblog:0.10
+        image: miniblog:0.12
         pull_policy: always
         networks:
             - privnet
