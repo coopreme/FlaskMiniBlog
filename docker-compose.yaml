@@ -26,9 +26,16 @@ services:
             - mysql-data-miniblog:/var/lib/mysql  
         container_name: mysql-db 
 
+    redis-server:
+        image: redis:3-alpine
+        networks:
+            - privnet
+        ports:
+            - 6379:6379
+        container_name: redis-server
+
     miniblog:
-        image: miniblog:0.12
-        pull_policy: always
+        image: miniblog:0.22
         networks:
             - privnet
         environment:
@@ -40,12 +47,37 @@ services:
             MS_TRANSLATOR_KEY: ${MS_TRANSLATOR_KEY} 
             DATABASE_URL: ${DATABASE_URL}
             ELASTICSEARCH_URL: ${ELASTICSEARCH_URL}
+            REDIS_URL: ${REDIS_URL}
         ports:
             - 8000:5000
         container_name: miniblog
         depends_on:
             - "mysql-db"
             - "elasticsearch"
+            - "redis-server"
+
+    rq-worker:
+        image: miniblog:0.22
+        entrypoint: venv/bin/rq
+        command: worker -u redis://redis-server:6379/0 miniblog-tasks
+        networks:
+            - privnet
+        environment:
+            SECRET_KEY: ${SECRET_KEY}
+            MAIL_SERVER: ${MAIL_SERVER}
+            MAIL_PORT: ${MAIL_PORT}
+            MAIL_USERNAME: ${MAIL_USERNAME}
+            MAIL_PASSWORD: ${MAIL_PASSWORD}
+            MS_TRANSLATOR_KEY: ${MS_TRANSLATOR_KEY} 
+            DATABASE_URL: ${DATABASE_URL}
+            ELASTICSEARCH_URL: ${ELASTICSEARCH_URL}
+            REDIS_URL: ${REDIS_URL}
+        container_name: rq-worker
+        depends_on:
+            - "mysql-db"
+            - "elasticsearch"
+            - "redis-server"
+
 networks:
     privnet:
 volumes:

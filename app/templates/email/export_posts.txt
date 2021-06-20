@@ -1,0 +1,6 @@
+Hello {{ user.username }},
+
+Please see the attached archive of your posts you requested. 
+
+Ciao,
+Miniblogteam
